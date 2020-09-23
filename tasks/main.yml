@@ -1,1 +1,16 @@
 ---
+- name: Check if nginx is already installed
+  command: /usr/local/nginx/sbin/nginx -v
+  register: nginx_installed
+  changed_when: false
+  ignore_errors: true
+
+- name: Check version of nginx if installed  # noqa 306
+  shell: /usr/local/nginx/sbin/nginx -v 2>&1 | awk '{print $3}'
+  register: installed_nginx_version
+  when: nginx_installed.rc == 0
+  changed_when: false
+
+- name: Install nginx if version is not present
+  include_tasks: install_nginx.yml
+  when: nginx_installed.rc != 0 or installed_nginx_version.stdout.split("/")[1] != nginx_version

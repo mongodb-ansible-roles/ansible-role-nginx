@@ -7,5 +7,6 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 ).get_hosts('all')
 
 
-def test_host(host):
-    assert host.file("/etc/hosts").exists
+def test_nginx(host):
+    cmd = host.run("/usr/local/nginx/sbin/nginx -v 2>&1 | awk '{print $3}'")
+    assert cmd.stdout == "nginx/1.18.0\n"

@@ -1,0 +1,10 @@
+---
+- hosts: debian9
+  tasks:
+    - name: Install packages
+      package:
+        name: "{{ item }}"
+      loop:
+        - build-essential
+        - libpcre3-dev
+        - zlib1g-dev
