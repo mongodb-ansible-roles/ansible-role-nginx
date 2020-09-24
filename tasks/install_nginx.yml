@@ -9,6 +9,7 @@
     src: /tmp/nginx-{{ nginx_version }}.tar.gz
     dest: /tmp/
     remote_src: true
+    mode: "0755"
 
 - name: Configure  # noqa 301
   command: ./configure
